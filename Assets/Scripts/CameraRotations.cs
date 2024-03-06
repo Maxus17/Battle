@@ -21,7 +21,7 @@ public class CameraRotations : MonoBehaviour
         {
             Value -= 360;
         }
-        Value = Mathf.Clamp(Value, -5, 10);
+        Value = Mathf.Clamp(Value, -30, 15);
         CameraAxisTransform.localEulerAngles = new Vector3(Value, 0, 0);
 ;    }
 }
