@@ -10,17 +10,36 @@ public class EnemyAI : MonoBehaviour
     public PlayerContoller player;
     private bool _isPlayerNoticed;
     public float viewAngle;
+    public float damage = 30;
+    private PlayerHealth _playerHealth;
 
     void Start()
     {
-        _navMeshAgent = GetComponent<NavMeshAgent>();        
+        InintComponentLink();
+    }
+
+    private void InintComponentLink()
+    {
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _playerHealth = player.GetComponent<PlayerHealth>();
     }
 
     void Update()
     {
-        PickPotrolPoint();
+        PotrolUpdate();
         NoticePlayerUpdate();
         ChaseUpdate();
+        AttackUpdate();
+    }
+    private void AttackUpdate()
+    {
+        if (_isPlayerNoticed)
+        {
+            if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+            {
+                _playerHealth.DealDamage(damage * Time.deltaTime);
+            }
+        }
     }
     private void ChaseUpdate()
     {
@@ -46,15 +65,21 @@ public class EnemyAI : MonoBehaviour
             }
         }
     }
+
+    private void PotrolUpdate()
+    {
+        
+        if (!_isPlayerNoticed)
+        {
+            if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+            {
+                PickPotrolPoint();
+            }
+        }
+    }
+   
     private void PickPotrolPoint()
     {
-        if (_navMeshAgent.remainingDistance == 0)
-        {
-            _navMeshAgent.destination = potrolPoints[Random.Range(0, potrolPoints.Count)].position;
-        }
-        if(!_isPlayerNoticed)
-        {
-            _navMeshAgent.destination = potrolPoints[Random.Range(0, potrolPoints.Count)].position;
-        }
+        _navMeshAgent.destination = potrolPoints[Random.Range(0, potrolPoints.Count)].position;
     }
 }
