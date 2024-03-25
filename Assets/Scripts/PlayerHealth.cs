@@ -54,4 +54,10 @@ public class PlayerHealth : MonoBehaviour
     {
         gameOverScreen.SetActive(false);
     }
+    public void AddHealth(float amount)
+    {
+        value += amount;
+        value = Mathf.Clamp(value, 0, _maxValue);
+        DrawnHealthBar();
+    }
 }
