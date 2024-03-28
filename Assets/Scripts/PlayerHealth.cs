@@ -9,6 +9,8 @@ public class PlayerHealth : MonoBehaviour
 
     private float _maxValue;
 
+    public Animator animator;
+
     public GameObject gameplayUI;
     public GameObject gameOverScreen;
 
@@ -29,6 +31,7 @@ public class PlayerHealth : MonoBehaviour
             GetComponent<PlayerContoller>().enabled = false;
             GetComponent<FireballCaster>().enabled = false;
             GetComponent<CameraRotations>().enabled = false;
+            animator.SetTrigger("death");
         }
         DrawnHealthBar();
     }

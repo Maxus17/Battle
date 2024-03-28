@@ -8,10 +8,15 @@ public class EnemyAI : MonoBehaviour
     public List<Transform> potrolPoints;
     private NavMeshAgent _navMeshAgent;
     public PlayerContoller player;
+
     private bool _isPlayerNoticed;
+    private PlayerHealth _playerHealth;
+    public float attackDistance = 1;
+
     public float viewAngle;
     public float damage = 30;
-    private PlayerHealth _playerHealth;
+    
+    public Animator animator;
 
     void Start()
     {
@@ -37,9 +42,21 @@ public class EnemyAI : MonoBehaviour
         {
             if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
             {
-                _playerHealth.DealDamage(damage * Time.deltaTime);
+                animator.SetTrigger("attack");
             }
         }
+    }
+
+    public void AttackDamage()
+    {
+        if (_isPlayerNoticed)
+        {
+            if (_navMeshAgent.remainingDistance <= (_navMeshAgent.stoppingDistance + attackDistance))
+            {
+                _playerHealth.DealDamage(damage);
+            }
+        }
+
     }
     private void ChaseUpdate()
     {
